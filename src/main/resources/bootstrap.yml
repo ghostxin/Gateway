@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    config:
+      fail-fast: false
+      username: user
+      password: ${CONFIG_SERVICE_PASSWORD:111111}
+      # 指定git仓库的分支，对应ConfigServer所获取的配置文件中的{label}
+      label: ${SPRING_PROFILES_ACTIVE:master}
+      # profile对应ConfigServer所获取的配置文件中的{profile}
+      profile: ${PROJECT_CONF:master}
+      discovery:
+        # 表示开启通过服务发现组件访问ConfigServer的功能
+        enabled: true
+        # 指定ConfigService在服务发现组件中的serviceId
+        service-id: config-service
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://eureka.master:8761/eureka/,http://eureka.slave:8761/eureka/
